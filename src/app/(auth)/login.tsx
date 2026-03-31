@@ -9,7 +9,6 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import { router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useAppTheme } from '../../hooks/useAppTheme';
@@ -44,7 +43,6 @@ export default function LoginScreen() {
     }
 
     setIsSubmitting(false);
-    router.replace('/(tabs)');
   };
 
   return (
