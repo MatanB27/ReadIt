@@ -1,10 +1,11 @@
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export const FeedLoading = () => {
   return (
-    <View style={styles.container}>
+    <SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={styles.container}>
       <ActivityIndicator size="large" color="#1F1A17" />
-    </View>
+    </SafeAreaView>
   );
 };
 

@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import type { Article } from '../types/article';
@@ -5,36 +6,46 @@ import { formatRelativeTime } from '../utils/formatRelativeTime';
 
 type ArticleRowProps = {
   article: Article;
-  isBookmarked: boolean;
+  bookmarked: boolean;
+  onPress: (article: Article) => void;
   onToggleBookmark: (article: Article) => void;
 };
 
-export const ArticleRow = ({ article, isBookmarked, onToggleBookmark }: ArticleRowProps) => {
+const ArticleRowComponent = ({ article, bookmarked, onPress, onToggleBookmark }: ArticleRowProps) => {
+  const metaText = `${article.score} points | ${article.commentCount} comments`;
+  const detailText = `${article.domain || 'No domain'} | ${formatRelativeTime(article.time)}`;
+
   return (
-    <View style={styles.row}>
+    <Pressable
+      onPress={() => {
+        onPress(article);
+      }}
+      style={styles.row}
+    >
       <View style={styles.rowContent}>
         <Text style={styles.title}>{article.title}</Text>
-        <Text style={styles.meta}>
-          {article.score} points | {article.commentCount} comments
-        </Text>
-        <Text style={styles.meta}>
-          {article.domain || 'No domain'} | {formatRelativeTime(article.time)}
-        </Text>
+        <Text style={styles.meta}>{metaText}</Text>
+        <Text style={styles.meta}>{detailText}</Text>
       </View>
 
       <Pressable
         onPress={() => {
           onToggleBookmark(article);
         }}
-        style={[styles.bookmarkButton, isBookmarked && styles.bookmarkButtonActive]}
+        style={[styles.bookmarkButton, bookmarked && styles.bookmarkButtonActive]}
       >
-        <Text style={[styles.bookmarkText, isBookmarked && styles.bookmarkTextActive]}>
-          {isBookmarked ? 'Saved' : 'Save'}
+        <Text style={[styles.bookmarkIcon, bookmarked && styles.bookmarkIconActive]}>
+          {bookmarked ? '★' : '☆'}
+        </Text>
+        <Text style={[styles.bookmarkText, bookmarked && styles.bookmarkTextActive]}>
+          {bookmarked ? 'Saved' : 'Save'}
         </Text>
       </Pressable>
-    </View>
+    </Pressable>
   );
 };
+
+export const ArticleRow = memo(ArticleRowComponent);
 
 const styles = StyleSheet.create({
   row: {
@@ -60,6 +71,9 @@ const styles = StyleSheet.create({
   },
   bookmarkButton: {
     alignSelf: 'flex-start',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
     paddingHorizontal: 12,
     paddingVertical: 8,
     borderRadius: 999,
@@ -73,7 +87,14 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#3A302B',
   },
+  bookmarkIcon: {
+    fontSize: 14,
+    color: '#3A302B',
+  },
   bookmarkTextActive: {
+    color: '#FFFFFF',
+  },
+  bookmarkIconActive: {
     color: '#FFFFFF',
   },
 });

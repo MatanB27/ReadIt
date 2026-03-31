@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { OfflineBanner } from './OfflineBanner';
 
@@ -10,11 +11,11 @@ type FeedStateProps = {
 
 export const FeedState = ({ title, message = '', showOfflineBanner = false }: FeedStateProps) => {
   return (
-    <View style={styles.container}>
+    <SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={styles.container}>
       {showOfflineBanner ? <OfflineBanner /> : null}
       <Text style={styles.title}>{title}</Text>
       {message ? <Text style={styles.message}>{message}</Text> : null}
-    </View>
+    </SafeAreaView>
   );
 };
 

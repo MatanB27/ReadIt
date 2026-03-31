@@ -10,6 +10,7 @@ import {
   View,
 } from 'react-native';
 import { router } from 'expo-router';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { VALID_EMAIL, VALID_PASSWORD } from '../../services/authService';
 import { useAuthStore } from '../../store/authStore';
@@ -48,7 +49,7 @@ export default function LoginScreen() {
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       style={styles.keyboardView}
     >
-      <View style={styles.container}>
+      <SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={styles.container}>
         <View style={styles.card}>
           <Text style={styles.title}>ReadIt</Text>
           <Text style={styles.subtitle}>Sign in to continue</Text>
@@ -79,9 +80,7 @@ export default function LoginScreen() {
 
           <Pressable
             disabled={isDisabled}
-            onPress={() => {
-              void handleLogin();
-            }}
+            onPress={handleLogin}
             style={[styles.button, isDisabled && styles.buttonDisabled]}
           >
             {isSubmitting ? (
@@ -91,7 +90,7 @@ export default function LoginScreen() {
             )}
           </Pressable>
         </View>
-      </View>
+      </SafeAreaView>
     </KeyboardAvoidingView>
   );
 }

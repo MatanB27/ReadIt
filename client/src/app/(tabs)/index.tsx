@@ -1,17 +1,29 @@
-import { useEffect } from 'react';
-import { ActivityIndicator, FlatList, RefreshControl, StyleSheet, Text, View } from 'react-native';
+import { useCallback, useEffect } from 'react';
+import {
+  ActivityIndicator,
+  FlatList,
+  Pressable,
+  RefreshControl,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type { Article } from '../../types/article';
 import { ArticleRow } from '../../components/ArticleRow';
 import { FeedLoading } from '../../components/FeedLoading';
 import { FeedState } from '../../components/FeedState';
+import { Header } from '../../components/Header';
 import { OfflineBanner } from '../../components/OfflineBanner';
 import { useFeed } from '../../hooks/useFeed';
+import { useAuthStore } from '../../store/authStore';
 import { useBookmarksStore } from '../../store/bookmarksStore';
 
 export default function FeedScreen() {
   const { articles, error, isConnected, isLoading, isLoadingMore, isRefreshing, loadMore, refresh } =
     useFeed();
+  const logout = useAuthStore((state) => state.logout);
   const bookmarks = useBookmarksStore((state) => state.bookmarks);
   const hydrateBookmarks = useBookmarksStore((state) => state.hydrateBookmarks);
   const toggleBookmark = useBookmarksStore((state) => state.toggleBookmark);
@@ -24,23 +36,32 @@ export default function FeedScreen() {
     loadBookmarks();
   }, [hydrateBookmarks]);
 
-  const handleToggleBookmark = async (article: Article) => {
+  const handleToggleBookmark = useCallback(async (article: Article) => {
     await toggleBookmark(article);
-  };
+  }, [toggleBookmark]);
 
-  const handleLoadMore = async () => {
+  const handlePressArticle = useCallback((article: Article) => {
+    return article;
+  }, []);
+
+  const handleLoadMore = useCallback(async () => {
     await loadMore();
-  };
+  }, [loadMore]);
 
-  const handleRefresh = async () => {
+  const handleRefresh = useCallback(async () => {
     await refresh();
-  };
+  }, [refresh]);
+
+  const handleLogout = useCallback(async () => {
+    await logout();
+  }, [logout]);
 
   const renderItem = ({ item }: { item: Article }) => {
     return (
       <ArticleRow
         article={item}
-        isBookmarked={Boolean(bookmarks[item.id])}
+        bookmarked={Boolean(bookmarks[item.id])}
+        onPress={handlePressArticle}
         onToggleBookmark={handleToggleBookmark}
       />
     );
@@ -59,7 +80,9 @@ export default function FeedScreen() {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView edges={['top', 'right', 'left']} style={styles.container}>
+      <Header onLogout={handleLogout} />
+
       {!isConnected ? <OfflineBanner /> : null}
       {error ? <Text style={styles.inlineError}>{error}</Text> : null}
 
@@ -79,7 +102,7 @@ export default function FeedScreen() {
           ) : null
         }
       />
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -87,8 +110,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F5EFE6',
-    paddingTop: 24,
     paddingHorizontal: 24,
+    paddingTop: 12,
   },
   listContent: {
     paddingBottom: 24,
