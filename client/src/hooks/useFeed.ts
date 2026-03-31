@@ -53,12 +53,23 @@ export const useFeed = (): UseFeedResult => {
   );
 
   const loadInitialFeed = useCallback(async () => {
-    setIsLoading(true);
     setError('');
+    setIsLoading(true);
+
+    const cachedArticles = await getCachedFeed();
+    const hasCachedArticles = cachedArticles.length > 0;
+
+    if (hasCachedArticles) {
+      setArticles(cachedArticles);
+      setIsLoading(false);
+    }
 
     if (!isConnected) {
-      await loadCachedFeed();
       setPage(1);
+      if (!hasCachedArticles) {
+        setArticles(cachedArticles);
+        setIsLoading(false);
+      }
       setIsLoading(false);
       return;
     }
@@ -71,14 +82,12 @@ export const useFeed = (): UseFeedResult => {
       setArticles(firstPageArticles);
       setPage(1);
       await saveCachedFeed(firstPageArticles);
-      
     } catch (loadError) {
-      await loadCachedFeed();
       setError(loadError instanceof Error ? loadError.message : 'Failed to load feed');
     } finally {
       setIsLoading(false);
     }
-  }, [fetchIds, fetchPage, isConnected, loadCachedFeed]);
+  }, [fetchIds, fetchPage, isConnected]);
 
   const loadMore = useCallback(async () => {
     if (!isConnected || isLoadingMore || topStoryIds.length === 0) {
