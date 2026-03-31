@@ -1,13 +1,14 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 type HeaderProps = {
+  title: string;
   onLogout: () => void;
 };
 
-export const Header = ({ onLogout }: HeaderProps) => {
+export const Header = ({ title, onLogout }: HeaderProps) => {
   return (
     <View style={styles.header}>
-      <Text style={styles.title}>Feed</Text>
+      <Text style={styles.title}>{title}</Text>
       <Pressable onPress={onLogout} style={styles.logoutButton}>
         <Text style={styles.logoutButtonText}>Logout</Text>
       </Pressable>

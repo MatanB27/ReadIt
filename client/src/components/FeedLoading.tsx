@@ -7,7 +7,7 @@ import { SkeletonRow } from './SkeletonRow';
 export const FeedLoading = () => {
   return (
     <SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={styles.container}>
-      <Header onLogout={() => {}} />
+      <Header title="Feed" onLogout={() => {}} />
       <View style={styles.list}>
         <SkeletonRow />
         <SkeletonRow />

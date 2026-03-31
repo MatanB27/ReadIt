@@ -90,7 +90,7 @@ export default function FeedScreen() {
 
   return (
     <SafeAreaView edges={['top', 'right', 'left']} style={styles.container}>
-      <Header onLogout={handleLogout} />
+      <Header title="Feed" onLogout={handleLogout} />
 
       {!isConnected ? <OfflineBanner /> : null}
       {error ? <Text style={styles.inlineError}>{error}</Text> : null}
