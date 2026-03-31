@@ -50,6 +50,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
         token: null,
         userEmail: '',
         isAuthenticated: false,
+        isBootstrapping: false,
       });
 
       return {
@@ -62,6 +63,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
       token: result.token,
       userEmail: email,
       isAuthenticated: true,
+      isBootstrapping: false,
     });
 
     return {

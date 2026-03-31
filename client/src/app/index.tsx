@@ -1,10 +1,25 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { Redirect } from 'expo-router';
 
-export default function Page() {
+import { useAuthBootstrap } from '../hooks/useAuthBootstrap';
+
+export default function IndexPage() {
+  const { isAuthenticated, isBootstrapping } = useAuthBootstrap();
+
+  if (isBootstrapping) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="large" color="#1F1A17" />
+      </View>
+    );
+  }
+
+  if (isAuthenticated) {
+    return <Redirect href="/(tabs)" />;
+  }
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Hello World</Text>
-    </View>
+    <Redirect href="/(auth)/login" />
   );
 }
 
@@ -14,9 +29,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 24,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: '600',
+    backgroundColor: '#F4EFE6',
   },
 });
