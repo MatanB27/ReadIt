@@ -7,14 +7,12 @@ import { SkeletonRow } from './SkeletonRow';
 
 export const FeedLoading = () => {
   const theme = useAppTheme();
-  const themedStyles = StyleSheet.create({
-    container: {
-      backgroundColor: theme.colors.background,
-    },
-  });
 
   return (
-    <SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={[styles.container, themedStyles.container]}>
+    <SafeAreaView
+      edges={['top', 'right', 'bottom', 'left']}
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
       <Header title="Feed" mode={theme.mode} onToggleTheme={() => {}} onLogout={() => {}} />
       <View style={styles.list}>
         <SkeletonRow />

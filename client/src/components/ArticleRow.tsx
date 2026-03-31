@@ -17,24 +17,6 @@ const ArticleRowComponent = ({ article, bookmarked, onPress, onToggleBookmark }:
   const theme = useAppTheme();
   const metaText = `${article.score} points | ${article.commentCount} comments`;
   const detailText = `${article.domain || 'No domain'} | ${formatRelativeTime(article.time)}`;
-  const themedStyles = StyleSheet.create({
-    row: {
-      borderColor: theme.colors.border,
-      backgroundColor: theme.colors.surface,
-    },
-    title: {
-      color: theme.colors.text,
-    },
-    meta: {
-      color: theme.colors.mutedText,
-    },
-    bookmarkButton: {
-      backgroundColor: bookmarked ? theme.colors.primary : theme.colors.secondarySurface,
-    },
-    bookmarkText: {
-      color: bookmarked ? theme.colors.primaryText : theme.colors.secondaryText,
-    },
-  });
 
   return (
     <Animated.View entering={FadeInDown.duration(250)}>
@@ -42,21 +24,29 @@ const ArticleRowComponent = ({ article, bookmarked, onPress, onToggleBookmark }:
         onPress={() => {
           onPress(article);
         }}
-        style={[styles.row, themedStyles.row]}
+        style={[styles.row, { borderColor: theme.colors.border, backgroundColor: theme.colors.surface }]}
       >
         <View style={styles.rowContent}>
-          <Text style={[styles.title, themedStyles.title]}>{article.title}</Text>
-          <Text style={[styles.meta, themedStyles.meta]}>{metaText}</Text>
-          <Text style={[styles.meta, themedStyles.meta]}>{detailText}</Text>
+          <Text style={[styles.title, { color: theme.colors.text }]}>{article.title}</Text>
+          <Text style={[styles.meta, { color: theme.colors.mutedText }]}>{metaText}</Text>
+          <Text style={[styles.meta, { color: theme.colors.mutedText }]}>{detailText}</Text>
         </View>
 
         <Pressable
           onPress={() => {
             onToggleBookmark(article);
           }}
-          style={[styles.bookmarkButton, themedStyles.bookmarkButton]}
+          style={[
+            styles.bookmarkButton,
+            { backgroundColor: bookmarked ? theme.colors.primary : theme.colors.secondarySurface },
+          ]}
         >
-          <Text style={[styles.bookmarkText, themedStyles.bookmarkText]}>
+          <Text
+            style={[
+              styles.bookmarkText,
+              { color: bookmarked ? theme.colors.primaryText : theme.colors.secondaryText },
+            ]}
+          >
             {bookmarked ? 'Saved' : 'Save'}
           </Text>
         </Pressable>

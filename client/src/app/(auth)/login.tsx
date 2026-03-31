@@ -15,6 +15,38 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import { VALID_EMAIL, VALID_PASSWORD } from '../../services/authService';
 import { useAuthStore } from '../../store/authStore';
+import { colors } from '../../theme/colors';
+
+const createThemedStyles = (theme: (typeof colors)['light'] | (typeof colors)['dark']) =>
+  StyleSheet.create({
+    container: {
+      backgroundColor: theme.background,
+    },
+    card: {
+      backgroundColor: theme.surface,
+      borderColor: theme.border,
+    },
+    title: {
+      color: theme.text,
+    },
+    subtitle: {
+      color: theme.mutedText,
+    },
+    input: {
+      borderColor: theme.inputBorder,
+      backgroundColor: theme.inputBackground,
+      color: theme.text,
+    },
+    error: {
+      color: theme.error,
+    },
+    button: {
+      backgroundColor: theme.primary,
+    },
+    buttonText: {
+      color: theme.primaryText,
+    },
+  });
 
 export default function LoginScreen() {
   const theme = useAppTheme();
@@ -23,35 +55,7 @@ export default function LoginScreen() {
   const [password, setPassword] = useState(VALID_PASSWORD);
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const themedStyles = StyleSheet.create({
-    container: {
-      backgroundColor: theme.colors.background,
-    },
-    card: {
-      backgroundColor: theme.colors.surface,
-      borderColor: theme.colors.border,
-    },
-    title: {
-      color: theme.colors.text,
-    },
-    subtitle: {
-      color: theme.colors.mutedText,
-    },
-    input: {
-      borderColor: theme.colors.inputBorder,
-      backgroundColor: theme.colors.inputBackground,
-      color: theme.colors.text,
-    },
-    error: {
-      color: theme.colors.error,
-    },
-    button: {
-      backgroundColor: theme.colors.primary,
-    },
-    buttonText: {
-      color: theme.colors.primaryText,
-    },
-  });
+  const themedStyles = createThemedStyles(theme.colors);
 
   const isDisabled = !email.trim() || !password.trim() || isSubmitting;
 

@@ -11,6 +11,7 @@ import { getBookmarks, getCachedFeed } from "../../services/storage";
 import { useBookmarksStore } from "../../store/bookmarksStore";
 import { useSelectedArticleStore } from "../../store/selectedArticleStore";
 import type { Article } from "../../types/article";
+import { colors } from "../../theme/colors";
 
 const findArticleById = (articles: Article[], id: number): Article | null => {
   const article = articles.find((item) => item.id === id);
@@ -20,6 +21,43 @@ const findArticleById = (articles: Article[], id: number): Article | null => {
 
 const SECONDS_TO_MILLISECONDS = 1000;
 const MAX_HEADER_TITLE_LENGTH = 18;
+
+const createThemedStyles = (
+  theme: (typeof colors)["light"] | (typeof colors)["dark"],
+  isBookmarked: boolean,
+) =>
+  StyleSheet.create({
+    container: {
+      backgroundColor: theme.background,
+    },
+    title: {
+      color: theme.text,
+    },
+    metaBlock: {
+      backgroundColor: theme.surface,
+      borderColor: theme.border,
+    },
+    meta: {
+      color: theme.mutedText,
+    },
+    bookmarkButton: {
+      backgroundColor: isBookmarked ? theme.primary : theme.secondarySurface,
+    },
+    bookmarkText: {
+      color: isBookmarked ? theme.primaryText : theme.secondaryText,
+    },
+    webviewContainer: {
+      borderColor: theme.border,
+      backgroundColor: theme.surface,
+    },
+    fallbackBox: {
+      borderColor: theme.border,
+      backgroundColor: theme.surface,
+    },
+    fallbackText: {
+      color: theme.mutedText,
+    },
+  });
 
 export default function ArticleDetailScreen() {
   const theme = useAppTheme();
@@ -85,38 +123,7 @@ export default function ArticleDetailScreen() {
     article.title.length > MAX_HEADER_TITLE_LENGTH
       ? `${article.title.slice(0, MAX_HEADER_TITLE_LENGTH)}...`
       : article.title;
-  const themedStyles = StyleSheet.create({
-    container: {
-      backgroundColor: theme.colors.background,
-    },
-    title: {
-      color: theme.colors.text,
-    },
-    metaBlock: {
-      backgroundColor: theme.colors.surface,
-      borderColor: theme.colors.border,
-    },
-    meta: {
-      color: theme.colors.mutedText,
-    },
-    bookmarkButton: {
-      backgroundColor: isBookmarked ? theme.colors.primary : theme.colors.secondarySurface,
-    },
-    bookmarkText: {
-      color: isBookmarked ? theme.colors.primaryText : theme.colors.secondaryText,
-    },
-    webviewContainer: {
-      borderColor: theme.colors.border,
-      backgroundColor: theme.colors.surface,
-    },
-    fallbackBox: {
-      borderColor: theme.colors.border,
-      backgroundColor: theme.colors.surface,
-    },
-    fallbackText: {
-      color: theme.colors.mutedText,
-    },
-  });
+  const themedStyles = createThemedStyles(theme.colors, isBookmarked);
 
   const handleToggleBookmark = async () => {
     await toggleBookmark(article);

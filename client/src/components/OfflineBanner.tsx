@@ -3,14 +3,12 @@ import { useAppTheme } from '../hooks/useAppTheme';
 
 export const OfflineBanner = () => {
   const theme = useAppTheme();
-  const themedStyles = StyleSheet.create({
-    banner: {
-      backgroundColor: theme.colors.warningBackground,
-      color: theme.colors.warningText,
-    },
-  });
 
-  return <Text style={[styles.banner, themedStyles.banner]}>Offline mode</Text>;
+  return (
+    <Text style={[styles.banner, { backgroundColor: theme.colors.warningBackground, color: theme.colors.warningText }]}>
+      Offline mode
+    </Text>
+  );
 };
 
 const styles = StyleSheet.create({

@@ -11,20 +11,6 @@ type HeaderProps = {
 
 export const Header = ({ title, mode, onToggleTheme, onLogout }: HeaderProps) => {
   const theme = useAppTheme();
-  const themedStyles = StyleSheet.create({
-    title: {
-      color: theme.colors.text,
-    },
-    themeLabel: {
-      color: theme.colors.mutedText,
-    },
-    logoutButton: {
-      backgroundColor: theme.colors.primary,
-    },
-    logoutButtonText: {
-      color: theme.colors.primaryText,
-    },
-  });
   const switchTrackColor = {
     false: theme.colors.switchTrack,
     true: theme.colors.primary,
@@ -32,10 +18,12 @@ export const Header = ({ title, mode, onToggleTheme, onLogout }: HeaderProps) =>
 
   return (
     <View style={styles.header}>
-      <Text style={[styles.title, themedStyles.title]}>{title}</Text>
+      <Text style={[styles.title, { color: theme.colors.text }]}>{title}</Text>
       <View style={styles.actions}>
         <View style={styles.themeToggle}>
-          <Text style={[styles.themeLabel, themedStyles.themeLabel]}>{mode === 'dark' ? 'Dark' : 'Light'}</Text>
+          <Text style={[styles.themeLabel, { color: theme.colors.mutedText }]}>
+            {mode === 'dark' ? 'Dark' : 'Light'}
+          </Text>
           <Switch
             onValueChange={onToggleTheme}
             thumbColor={theme.colors.switchThumb}
@@ -43,8 +31,8 @@ export const Header = ({ title, mode, onToggleTheme, onLogout }: HeaderProps) =>
             value={mode === 'dark'}
           />
         </View>
-        <Pressable onPress={onLogout} style={[styles.logoutButton, themedStyles.logoutButton]}>
-          <Text style={[styles.logoutButtonText, themedStyles.logoutButtonText]}>Logout</Text>
+        <Pressable onPress={onLogout} style={[styles.logoutButton, { backgroundColor: theme.colors.primary }]}>
+          <Text style={[styles.logoutButtonText, { color: theme.colors.primaryText }]}>Logout</Text>
         </Pressable>
       </View>
     </View>

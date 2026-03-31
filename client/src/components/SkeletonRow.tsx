@@ -15,15 +15,6 @@ const AnimatedView = Animated.createAnimatedComponent(View);
 export const SkeletonRow = () => {
   const theme = useAppTheme();
   const opacity = useSharedValue(0.55);
-  const themedStyles = StyleSheet.create({
-    row: {
-      borderColor: theme.colors.border,
-      backgroundColor: theme.colors.surface,
-    },
-    skeleton: {
-      backgroundColor: theme.colors.skeleton,
-    },
-  });
 
   useEffect(() => {
     opacity.value = withRepeat(
@@ -40,14 +31,14 @@ export const SkeletonRow = () => {
   });
 
   return (
-    <View style={[styles.row, themedStyles.row]}>
+    <View style={[styles.row, { borderColor: theme.colors.border, backgroundColor: theme.colors.surface }]}>
       <View style={styles.content}>
-        <AnimatedView style={[styles.title, themedStyles.skeleton, animatedStyle]} />
-        <AnimatedView style={[styles.metaWide, themedStyles.skeleton, animatedStyle]} />
-        <AnimatedView style={[styles.metaShort, themedStyles.skeleton, animatedStyle]} />
+        <AnimatedView style={[styles.title, { backgroundColor: theme.colors.skeleton }, animatedStyle]} />
+        <AnimatedView style={[styles.metaWide, { backgroundColor: theme.colors.skeleton }, animatedStyle]} />
+        <AnimatedView style={[styles.metaShort, { backgroundColor: theme.colors.skeleton }, animatedStyle]} />
       </View>
 
-      <AnimatedView style={[styles.button, themedStyles.skeleton, animatedStyle]} />
+      <AnimatedView style={[styles.button, { backgroundColor: theme.colors.skeleton }, animatedStyle]} />
     </View>
   );
 };

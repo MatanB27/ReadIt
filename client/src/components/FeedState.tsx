@@ -12,23 +12,15 @@ type FeedStateProps = {
 
 export const FeedState = ({ title, message = '', showOfflineBanner = false }: FeedStateProps) => {
   const theme = useAppTheme();
-  const themedStyles = StyleSheet.create({
-    container: {
-      backgroundColor: theme.colors.background,
-    },
-    title: {
-      color: theme.colors.text,
-    },
-    message: {
-      color: theme.colors.mutedText,
-    },
-  });
 
   return (
-    <SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={[styles.container, themedStyles.container]}>
+    <SafeAreaView
+      edges={['top', 'right', 'bottom', 'left']}
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
       {showOfflineBanner ? <OfflineBanner /> : null}
-      <Text style={[styles.title, themedStyles.title]}>{title}</Text>
-      {message ? <Text style={[styles.message, themedStyles.message]}>{message}</Text> : null}
+      <Text style={[styles.title, { color: theme.colors.text }]}>{title}</Text>
+      {message ? <Text style={[styles.message, { color: theme.colors.mutedText }]}>{message}</Text> : null}
     </SafeAreaView>
   );
 };

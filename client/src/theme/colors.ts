@@ -1,5 +1,4 @@
-export const colors = {
-  light: {
+export const lightColorsMap = {
     background: '#F5EFE6',
     surface: '#FFFDF9',
     border: '#E2D7C8',
@@ -17,8 +16,9 @@ export const colors = {
     switchTrack: '#CFC4B4',
     switchThumb: '#FFFFFF',
     skeleton: '#E8DED1',
-  },
-  dark: {
+};
+
+export const darkColorsMap = {
     background: '#151515',
     surface: '#1D1D1D',
     border: '#2C2C2C',
@@ -36,5 +36,9 @@ export const colors = {
     switchTrack: '#5F5F5F',
     switchThumb: '#F5F1EA',
     skeleton: '#4A433D',
-  },
-} as const;
+};
+
+export const colors = {
+    light: lightColorsMap,
+    dark: darkColorsMap,
+};
