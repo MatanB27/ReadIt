@@ -1,8 +1,8 @@
+import { format } from "date-fns";
+import { Stack, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Stack, useLocalSearchParams } from "expo-router";
-import { format } from "date-fns";
 import { WebView } from "react-native-webview";
 
 import { FeedState } from "../../components/FeedState";
@@ -19,12 +19,13 @@ const findArticleById = (articles: Article[], id: number): Article | null => {
 };
 
 const SECONDS_TO_MILLISECONDS = 1000;
-const MAX_HEADER_TITLE_LENGTH = 18;
+const MAX_HEADER_TITLE_LENGTH = 24;
 
 export default function ArticleDetailScreen() {
   const theme = useAppTheme();
   const params = useLocalSearchParams<{ id?: string | string[] }>();
-  const articleId = !params.id || Array.isArray(params.id) ? 0 : Number(params.id);
+  const articleId =
+    !params.id || Array.isArray(params.id) ? 0 : Number(params.id);
   const selectedArticle = useSelectedArticleStore(
     (state) => state.selectedArticle,
   );
@@ -91,17 +92,32 @@ export default function ArticleDetailScreen() {
   };
 
   return (
-    <SafeAreaView edges={["top", "right", "bottom", "left"]} style={[styles.container, { backgroundColor: theme.colors.background }]}>
+    <SafeAreaView
+      edges={["top", "right", "bottom", "left"]}
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
       <Stack.Screen options={{ title: headerTitle }} />
 
       <ScrollView contentContainerStyle={styles.content}>
-        <Text style={[styles.title, { color: theme.colors.text }]}>{article.title}</Text>
+        <Text style={[styles.title, { color: theme.colors.text }]}>
+          {article.title}
+        </Text>
 
-        <View style={[styles.metaBlock, { backgroundColor: theme.colors.surface, borderColor: theme.colors.border }]}>
+        <View
+          style={[
+            styles.metaBlock,
+            {
+              backgroundColor: theme.colors.surface,
+              borderColor: theme.colors.border,
+            },
+          ]}
+        >
           <Text style={[styles.meta, { color: theme.colors.mutedText }]}>
             Author: {article.author || "Unknown"}
           </Text>
-          <Text style={[styles.meta, { color: theme.colors.mutedText }]}>Score: {article.score}</Text>
+          <Text style={[styles.meta, { color: theme.colors.mutedText }]}>
+            Score: {article.score}
+          </Text>
           <Text style={[styles.meta, { color: theme.colors.mutedText }]}>
             Date: {formattedDate || "Unknown"}
           </Text>
@@ -109,12 +125,23 @@ export default function ArticleDetailScreen() {
 
         <Pressable
           onPress={handleToggleBookmark}
-          style={[styles.bookmarkButton, { backgroundColor: isBookmarked ? theme.colors.primary : theme.colors.secondarySurface }]}
+          style={[
+            styles.bookmarkButton,
+            {
+              backgroundColor: isBookmarked
+                ? theme.colors.primary
+                : theme.colors.secondarySurface,
+            },
+          ]}
         >
           <Text
             style={[
               styles.bookmarkText,
-              { color: isBookmarked ? theme.colors.primaryText : theme.colors.secondaryText },
+              {
+                color: isBookmarked
+                  ? theme.colors.primaryText
+                  : theme.colors.secondaryText,
+              },
             ]}
           >
             {isBookmarked ? "Saved" : "Save"}
@@ -122,7 +149,15 @@ export default function ArticleDetailScreen() {
         </Pressable>
 
         {article.url ? (
-          <View style={[styles.webviewContainer, { borderColor: theme.colors.border, backgroundColor: theme.colors.surface }]}>
+          <View
+            style={[
+              styles.webviewContainer,
+              {
+                borderColor: theme.colors.border,
+                backgroundColor: theme.colors.surface,
+              },
+            ]}
+          >
             <WebView
               nestedScrollEnabled
               source={{ uri: article.url }}
@@ -130,8 +165,20 @@ export default function ArticleDetailScreen() {
             />
           </View>
         ) : (
-          <View style={[styles.fallbackBox, { borderColor: theme.colors.border, backgroundColor: theme.colors.surface }]}>
-            <Text style={[styles.fallbackText, { color: theme.colors.mutedText }]}>No article URL available</Text>
+          <View
+            style={[
+              styles.fallbackBox,
+              {
+                borderColor: theme.colors.border,
+                backgroundColor: theme.colors.surface,
+              },
+            ]}
+          >
+            <Text
+              style={[styles.fallbackText, { color: theme.colors.mutedText }]}
+            >
+              No article URL available
+            </Text>
           </View>
         )}
       </ScrollView>
