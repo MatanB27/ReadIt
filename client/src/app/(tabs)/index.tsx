@@ -7,6 +7,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import { router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type { Article } from '../../types/article';
@@ -18,6 +19,7 @@ import { OfflineBanner } from '../../components/OfflineBanner';
 import { useFeed } from '../../hooks/useFeed';
 import { useAuthStore } from '../../store/authStore';
 import { useBookmarksStore } from '../../store/bookmarksStore';
+import { useSelectedArticleStore } from '../../store/selectedArticleStore';
 
 export default function FeedScreen() {
   const { articles, error, isConnected, isLoading, isLoadingMore, isRefreshing, loadMore, refresh } =
@@ -27,6 +29,7 @@ export default function FeedScreen() {
   const bookmarks = useBookmarksStore((state) => state.bookmarks);
   const hydrateBookmarks = useBookmarksStore((state) => state.hydrateBookmarks);
   const toggleBookmark = useBookmarksStore((state) => state.toggleBookmark);
+  const setSelectedArticle = useSelectedArticleStore((state) => state.setSelectedArticle);
 
   useEffect(() => {
     const loadBookmarks = async () => {
@@ -41,8 +44,14 @@ export default function FeedScreen() {
   }, [toggleBookmark]);
 
   const handlePressArticle = useCallback((article: Article) => {
-    return article;
-  }, []);
+    setSelectedArticle(article);
+    router.push({
+      pathname: '/article/[id]',
+      params: {
+        id: article.id.toString(),
+      },
+    });
+  }, [setSelectedArticle]);
 
   const handleLoadMore = useCallback(async () => {
     await loadMore();
