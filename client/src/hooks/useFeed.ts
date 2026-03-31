@@ -71,6 +71,7 @@ export const useFeed = (): UseFeedResult => {
       setArticles(firstPageArticles);
       setPage(1);
       await saveCachedFeed(firstPageArticles);
+      
     } catch (loadError) {
       await loadCachedFeed();
       setError(loadError instanceof Error ? loadError.message : 'Failed to load feed');
@@ -134,7 +135,11 @@ export const useFeed = (): UseFeedResult => {
   }, [fetchIds, fetchPage, isConnected, loadCachedFeed]);
 
   useEffect(() => {
-    void loadInitialFeed();
+    const initializeFeed = async () => {
+      await loadInitialFeed();
+    };
+
+    initializeFeed();
   }, [loadInitialFeed]);
 
   return {
