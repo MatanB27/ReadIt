@@ -19,6 +19,7 @@ import { useAuthStore } from '../../store/authStore';
 export default function LoginScreen() {
   const theme = useAppTheme();
   const login = useAuthStore((state) => state.login);
+  
   const [email, setEmail] = useState(VALID_EMAIL);
   const [password, setPassword] = useState(VALID_PASSWORD);
   const [error, setError] = useState('');

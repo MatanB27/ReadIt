@@ -42,6 +42,9 @@ password123
 - SecureStore for auth token persistence
 - NetInfo for online/offline detection
 
+Navigation note:
+- navigation lives in Expo Router layout files under `src/app` rather than a separate `navigation/` folder
+
 Why Zustand:
 - small API surface
 - good fit for isolated stores instead of one large global store

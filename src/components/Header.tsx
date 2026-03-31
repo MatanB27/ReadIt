@@ -1,20 +1,22 @@
-import { Pressable, StyleSheet, Switch, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Switch, Text, View } from "react-native";
 
-import { useAppTheme } from '../hooks/useAppTheme';
+import { useAppTheme } from "../hooks/useAppTheme";
+import { DARK_THEME, LIGHT_THEME } from "../store/themeStore";
 
 type HeaderProps = {
   title: string;
-  mode: 'light' | 'dark';
+  mode: "light" | "dark";
   onToggleTheme: () => void;
   onLogout: () => void;
 };
 
-export const Header = ({ title, mode, onToggleTheme, onLogout }: HeaderProps) => {
+export const Header = ({
+  title,
+  mode,
+  onToggleTheme,
+  onLogout,
+}: HeaderProps) => {
   const theme = useAppTheme();
-  const switchTrackColor = {
-    false: theme.colors.switchTrack,
-    true: theme.colors.primary,
-  };
 
   return (
     <View style={styles.header}>
@@ -22,17 +24,33 @@ export const Header = ({ title, mode, onToggleTheme, onLogout }: HeaderProps) =>
       <View style={styles.actions}>
         <View style={styles.themeToggle}>
           <Text style={[styles.themeLabel, { color: theme.colors.mutedText }]}>
-            {mode === 'dark' ? 'Dark' : 'Light'}
+            {mode === DARK_THEME ? DARK_THEME : LIGHT_THEME}
           </Text>
           <Switch
             onValueChange={onToggleTheme}
             thumbColor={theme.colors.switchThumb}
-            trackColor={switchTrackColor}
-            value={mode === 'dark'}
+            trackColor={{
+              false: theme.colors.switchTrack,
+              true: theme.colors.primary,
+            }}
+            value={mode === DARK_THEME}
           />
         </View>
-        <Pressable onPress={onLogout} style={[styles.logoutButton, { backgroundColor: theme.colors.primary }]}>
-          <Text style={[styles.logoutButtonText, { color: theme.colors.primaryText }]}>Logout</Text>
+        <Pressable
+          onPress={onLogout}
+          style={[
+            styles.logoutButton,
+            { backgroundColor: theme.colors.primary },
+          ]}
+        >
+          <Text
+            style={[
+              styles.logoutButtonText,
+              { color: theme.colors.primaryText },
+            ]}
+          >
+            Logout
+          </Text>
         </Pressable>
       </View>
     </View>
@@ -42,27 +60,27 @@ export const Header = ({ title, mode, onToggleTheme, onLogout }: HeaderProps) =>
 const styles = StyleSheet.create({
   header: {
     marginBottom: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   actions: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 8,
   },
   themeToggle: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 8,
   },
   themeLabel: {
     fontSize: 13,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   title: {
     fontSize: 28,
-    fontWeight: '700',
+    fontWeight: "700",
   },
   logoutButton: {
     paddingHorizontal: 14,
@@ -71,6 +89,6 @@ const styles = StyleSheet.create({
   },
   logoutButtonText: {
     fontSize: 13,
-    fontWeight: '600',
+    fontWeight: "600",
   },
 });

@@ -2,7 +2,7 @@ import { create } from 'zustand';
 
 import { getValidSession, login as loginService, logout as logoutService } from '../services/authService';
 
-type AuthStore = {
+interface AuthStore {
   token: string | null;
   userEmail: string;
   isAuthenticated: boolean;

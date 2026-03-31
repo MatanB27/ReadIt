@@ -11,7 +11,11 @@ export const useAuthBootstrap = (): {
   const bootstrapAuth = useAuthStore((state) => state.bootstrapAuth);
 
   useEffect(() => {
-    void bootstrapAuth();
+    const loadAuth = async () => {
+      await bootstrapAuth();
+    };
+
+    loadAuth();
   }, [bootstrapAuth]);
 
   return {

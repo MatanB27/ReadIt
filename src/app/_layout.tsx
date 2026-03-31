@@ -11,7 +11,7 @@ import 'react-native-reanimated';
 
 import { ErrorBoundaryComponent } from '../components/ErrorBoundaryComponent';
 import { useAuthBootstrap } from '../hooks/useAuthBootstrap';
-import { DARK_THEME, useThemeStore } from '../store/themeStore';
+import { DARK_THEME, LIGHT_THEME, useThemeStore } from '../store/themeStore';
 
 export default function RootLayout() {
   const { isBootstrapping } = useAuthBootstrap();
@@ -38,7 +38,7 @@ export default function RootLayout() {
                 <Stack.Screen name="(auth)" options={{ headerShown: false }} />
                 <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
               </Stack>
-              <StatusBar style={mode === DARK_THEME ? 'light' : 'dark'} />
+              <StatusBar style={mode === DARK_THEME ? LIGHT_THEME : DARK_THEME} />
             </ErrorBoundary>
           </ThemeProvider>
         </QueryClientProvider>

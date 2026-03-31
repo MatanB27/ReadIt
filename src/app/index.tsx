@@ -1,7 +1,7 @@
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
-import { Redirect } from 'expo-router';
+import { Redirect } from "expo-router";
+import { ActivityIndicator, StyleSheet, View } from "react-native";
 
-import { useAuthBootstrap } from '../hooks/useAuthBootstrap';
+import { useAuthBootstrap } from "../hooks/useAuthBootstrap";
 
 export default function IndexPage() {
   const { isAuthenticated, isBootstrapping } = useAuthBootstrap();
@@ -18,17 +18,15 @@ export default function IndexPage() {
     return <Redirect href="/(tabs)" />;
   }
 
-  return (
-    <Redirect href="/(auth)/login" />
-  );
+  return <Redirect href="/(auth)/login" />;
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     padding: 24,
-    backgroundColor: '#F4EFE6',
+    backgroundColor: "#F4EFE6",
   },
 });

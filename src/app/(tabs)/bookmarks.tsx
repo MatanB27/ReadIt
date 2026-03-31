@@ -1,9 +1,8 @@
+import { router } from "expo-router";
 import { useCallback, useEffect, useMemo } from "react";
 import { FlatList, StyleSheet } from "react-native";
-import { router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import type { Article } from "../../types/article";
 import { ArticleRow } from "../../components/ArticleRow";
 import { FeedState } from "../../components/FeedState";
 import { Header } from "../../components/Header";
@@ -12,6 +11,7 @@ import { useAuthStore } from "../../store/authStore";
 import { useBookmarksStore } from "../../store/bookmarksStore";
 import { useSelectedArticleStore } from "../../store/selectedArticleStore";
 import { useThemeStore } from "../../store/themeStore";
+import type { Article } from "../../types/article";
 
 export default function BookmarksScreen() {
   const logout = useAuthStore((state) => state.logout);
@@ -79,8 +79,16 @@ export default function BookmarksScreen() {
   );
 
   return (
-    <SafeAreaView edges={["top", "right", "left"]} style={[styles.container, { backgroundColor: theme.colors.background }]}>
-      <Header title="Bookmarks" mode={mode} onToggleTheme={toggleMode} onLogout={logout} />
+    <SafeAreaView
+      edges={["top", "right", "left"]}
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
+      <Header
+        title="Bookmarks"
+        mode={mode}
+        onToggleTheme={toggleMode}
+        onLogout={logout}
+      />
       {content}
     </SafeAreaView>
   );

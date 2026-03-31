@@ -1,22 +1,27 @@
-import { memo } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
-import Animated, { FadeInDown } from 'react-native-reanimated';
+import { memo } from "react";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import Animated, { FadeInDown } from "react-native-reanimated";
 
-import { useAppTheme } from '../hooks/useAppTheme';
-import type { Article } from '../types/article';
-import { formatRelativeTime } from '../utils/formatRelativeTime';
+import { useAppTheme } from "../hooks/useAppTheme";
+import type { Article } from "../types/article";
+import { formatRelativeTime } from "../utils/formatRelativeTime";
 
-type ArticleRowProps = {
+interface ArticleRowProps {
   article: Article;
   bookmarked: boolean;
   onPress: (article: Article) => void;
   onToggleBookmark: (article: Article) => void;
-};
+}
 
-const ArticleRowComponent = ({ article, bookmarked, onPress, onToggleBookmark }: ArticleRowProps) => {
+const ArticleRowComponent = ({
+  article,
+  bookmarked,
+  onPress,
+  onToggleBookmark,
+}: ArticleRowProps) => {
   const theme = useAppTheme();
   const metaText = `${article.score} points | ${article.commentCount} comments`;
-  const detailText = `${article.domain || 'No domain'} | ${formatRelativeTime(article.time)}`;
+  const detailText = `${article.domain || "No domain"} | ${formatRelativeTime(article.time)}`;
 
   return (
     <Animated.View entering={FadeInDown.duration(250)}>
@@ -24,12 +29,24 @@ const ArticleRowComponent = ({ article, bookmarked, onPress, onToggleBookmark }:
         onPress={() => {
           onPress(article);
         }}
-        style={[styles.row, { borderColor: theme.colors.border, backgroundColor: theme.colors.surface }]}
+        style={[
+          styles.row,
+          {
+            borderColor: theme.colors.border,
+            backgroundColor: theme.colors.surface,
+          },
+        ]}
       >
         <View style={styles.rowContent}>
-          <Text style={[styles.title, { color: theme.colors.text }]}>{article.title}</Text>
-          <Text style={[styles.meta, { color: theme.colors.mutedText }]}>{metaText}</Text>
-          <Text style={[styles.meta, { color: theme.colors.mutedText }]}>{detailText}</Text>
+          <Text style={[styles.title, { color: theme.colors.text }]}>
+            {article.title}
+          </Text>
+          <Text style={[styles.meta, { color: theme.colors.mutedText }]}>
+            {metaText}
+          </Text>
+          <Text style={[styles.meta, { color: theme.colors.mutedText }]}>
+            {detailText}
+          </Text>
         </View>
 
         <Pressable
@@ -38,16 +55,24 @@ const ArticleRowComponent = ({ article, bookmarked, onPress, onToggleBookmark }:
           }}
           style={[
             styles.bookmarkButton,
-            { backgroundColor: bookmarked ? theme.colors.primary : theme.colors.secondarySurface },
+            {
+              backgroundColor: bookmarked
+                ? theme.colors.primary
+                : theme.colors.secondarySurface,
+            },
           ]}
         >
           <Text
             style={[
               styles.bookmarkText,
-              { color: bookmarked ? theme.colors.primaryText : theme.colors.secondaryText },
+              {
+                color: bookmarked
+                  ? theme.colors.primaryText
+                  : theme.colors.secondaryText,
+              },
             ]}
           >
-            {bookmarked ? 'Saved' : 'Save'}
+            {bookmarked ? "Saved" : "Save"}
           </Text>
         </Pressable>
       </Pressable>
@@ -70,15 +95,15 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 18,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   meta: {
     fontSize: 14,
   },
   bookmarkButton: {
-    alignSelf: 'flex-start',
-    flexDirection: 'row',
-    alignItems: 'center',
+    alignSelf: "flex-start",
+    flexDirection: "row",
+    alignItems: "center",
     gap: 6,
     paddingHorizontal: 12,
     paddingVertical: 8,
@@ -86,6 +111,6 @@ const styles = StyleSheet.create({
   },
   bookmarkText: {
     fontSize: 13,
-    fontWeight: '600',
+    fontWeight: "600",
   },
 });
