@@ -1,50 +1,58 @@
-# Welcome to your Expo app 👋
+# ReadIt
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Expo React Native take-home project for a Hacker News reader with mock auth, offline caching, bookmarks, theming, and article detail view.
 
-## Get started
+## Setup
 
-1. Install dependencies
+Assumptions:
+- Node.js 20+
+- npm 10+
+- Expo Go app or Android/iOS simulator
 
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+Install and run:
 
 ```bash
-npm run reset-project
+npm install
+npx expo start
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Useful commands:
 
-## Learn more
+```bash
+npm test
+npx tsc --noEmit
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+Mock login credentials:
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```txt
+user@readit.dev
+password123
+```
 
-## Join the community
+## Architecture
 
-Join our community of developers creating universal apps.
+- Expo Router for app structure and navigation
+- React Query for network fetching and in-memory request caching
+- Zustand for local app state
+  - `authStore` for session state
+  - `bookmarksStore` for saved articles
+  - `selectedArticleStore` for handoff to detail screen
+- AsyncStorage for cached feed and bookmarks
+- SecureStore for auth token persistence
+- NetInfo for online/offline detection
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Why Zustand:
+- small API surface
+- good fit for isolated stores instead of one large global store
+
+## Trade-offs
+
+- Mock auth is fully client-side because the task allows it
+- Feed cache is intentionally simple: last successful feed snapshot
+- One focused unit test was added for the bookmarks store instead of broad test coverage
+
+## With More Time
+
+- move mock auth to a small backend service and replace the mock token with a real JWT flow
+- add more test coverage for hooks and auth flow
