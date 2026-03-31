@@ -12,14 +12,6 @@ import { useAuthStore } from "../../store/authStore";
 import { useBookmarksStore } from "../../store/bookmarksStore";
 import { useSelectedArticleStore } from "../../store/selectedArticleStore";
 import { useThemeStore } from "../../store/themeStore";
-import { colors } from "../../theme/colors";
-
-const createThemedStyles = (theme: (typeof colors)["light"] | (typeof colors)["dark"]) =>
-  StyleSheet.create({
-    container: {
-      backgroundColor: theme.background,
-    },
-  });
 
 export default function BookmarksScreen() {
   const logout = useAuthStore((state) => state.logout);
@@ -32,7 +24,6 @@ export default function BookmarksScreen() {
   const mode = useThemeStore((state) => state.mode);
   const toggleMode = useThemeStore((state) => state.toggleMode);
   const theme = useAppTheme();
-  const themedStyles = createThemedStyles(theme.colors);
 
   useEffect(() => {
     const loadBookmarks = async () => {
@@ -88,7 +79,7 @@ export default function BookmarksScreen() {
   );
 
   return (
-    <SafeAreaView edges={["top", "right", "left"]} style={[styles.container, themedStyles.container]}>
+    <SafeAreaView edges={["top", "right", "left"]} style={[styles.container, { backgroundColor: theme.colors.background }]}>
       <Header title="Bookmarks" mode={mode} onToggleTheme={toggleMode} onLogout={logout} />
       {content}
     </SafeAreaView>

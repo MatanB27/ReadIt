@@ -11,7 +11,6 @@ import { getBookmarks, getCachedFeed } from "../../services/storage";
 import { useBookmarksStore } from "../../store/bookmarksStore";
 import { useSelectedArticleStore } from "../../store/selectedArticleStore";
 import type { Article } from "../../types/article";
-import { colors } from "../../theme/colors";
 
 const findArticleById = (articles: Article[], id: number): Article | null => {
   const article = articles.find((item) => item.id === id);
@@ -21,43 +20,6 @@ const findArticleById = (articles: Article[], id: number): Article | null => {
 
 const SECONDS_TO_MILLISECONDS = 1000;
 const MAX_HEADER_TITLE_LENGTH = 18;
-
-const createThemedStyles = (
-  theme: (typeof colors)["light"] | (typeof colors)["dark"],
-  isBookmarked: boolean,
-) =>
-  StyleSheet.create({
-    container: {
-      backgroundColor: theme.background,
-    },
-    title: {
-      color: theme.text,
-    },
-    metaBlock: {
-      backgroundColor: theme.surface,
-      borderColor: theme.border,
-    },
-    meta: {
-      color: theme.mutedText,
-    },
-    bookmarkButton: {
-      backgroundColor: isBookmarked ? theme.primary : theme.secondarySurface,
-    },
-    bookmarkText: {
-      color: isBookmarked ? theme.primaryText : theme.secondaryText,
-    },
-    webviewContainer: {
-      borderColor: theme.border,
-      backgroundColor: theme.surface,
-    },
-    fallbackBox: {
-      borderColor: theme.border,
-      backgroundColor: theme.surface,
-    },
-    fallbackText: {
-      color: theme.mutedText,
-    },
-  });
 
 export default function ArticleDetailScreen() {
   const theme = useAppTheme();
@@ -123,35 +85,44 @@ export default function ArticleDetailScreen() {
     article.title.length > MAX_HEADER_TITLE_LENGTH
       ? `${article.title.slice(0, MAX_HEADER_TITLE_LENGTH)}...`
       : article.title;
-  const themedStyles = createThemedStyles(theme.colors, isBookmarked);
 
   const handleToggleBookmark = async () => {
     await toggleBookmark(article);
   };
 
   return (
-    <SafeAreaView edges={["top", "right", "bottom", "left"]} style={[styles.container, themedStyles.container]}>
+    <SafeAreaView edges={["top", "right", "bottom", "left"]} style={[styles.container, { backgroundColor: theme.colors.background }]}>
       <Stack.Screen options={{ title: headerTitle }} />
 
       <ScrollView contentContainerStyle={styles.content}>
-        <Text style={[styles.title, themedStyles.title]}>{article.title}</Text>
+        <Text style={[styles.title, { color: theme.colors.text }]}>{article.title}</Text>
 
-        <View style={[styles.metaBlock, themedStyles.metaBlock]}>
-          <Text style={[styles.meta, themedStyles.meta]}>
+        <View style={[styles.metaBlock, { backgroundColor: theme.colors.surface, borderColor: theme.colors.border }]}>
+          <Text style={[styles.meta, { color: theme.colors.mutedText }]}>
             Author: {article.author || "Unknown"}
           </Text>
-          <Text style={[styles.meta, themedStyles.meta]}>Score: {article.score}</Text>
-          <Text style={[styles.meta, themedStyles.meta]}>
+          <Text style={[styles.meta, { color: theme.colors.mutedText }]}>Score: {article.score}</Text>
+          <Text style={[styles.meta, { color: theme.colors.mutedText }]}>
             Date: {formattedDate || "Unknown"}
           </Text>
         </View>
 
-        <Pressable onPress={handleToggleBookmark} style={[styles.bookmarkButton, themedStyles.bookmarkButton]}>
-          <Text style={[styles.bookmarkText, themedStyles.bookmarkText]}>{isBookmarked ? "Saved" : "Save"}</Text>
+        <Pressable
+          onPress={handleToggleBookmark}
+          style={[styles.bookmarkButton, { backgroundColor: isBookmarked ? theme.colors.primary : theme.colors.secondarySurface }]}
+        >
+          <Text
+            style={[
+              styles.bookmarkText,
+              { color: isBookmarked ? theme.colors.primaryText : theme.colors.secondaryText },
+            ]}
+          >
+            {isBookmarked ? "Saved" : "Save"}
+          </Text>
         </Pressable>
 
         {article.url ? (
-          <View style={[styles.webviewContainer, themedStyles.webviewContainer]}>
+          <View style={[styles.webviewContainer, { borderColor: theme.colors.border, backgroundColor: theme.colors.surface }]}>
             <WebView
               nestedScrollEnabled
               source={{ uri: article.url }}
@@ -159,8 +130,8 @@ export default function ArticleDetailScreen() {
             />
           </View>
         ) : (
-          <View style={[styles.fallbackBox, themedStyles.fallbackBox]}>
-            <Text style={[styles.fallbackText, themedStyles.fallbackText]}>No article URL available</Text>
+          <View style={[styles.fallbackBox, { borderColor: theme.colors.border, backgroundColor: theme.colors.surface }]}>
+            <Text style={[styles.fallbackText, { color: theme.colors.mutedText }]}>No article URL available</Text>
           </View>
         )}
       </ScrollView>

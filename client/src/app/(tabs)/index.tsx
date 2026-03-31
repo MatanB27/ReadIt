@@ -22,17 +22,6 @@ import { useBookmarksStore } from '../../store/bookmarksStore';
 import { useSelectedArticleStore } from '../../store/selectedArticleStore';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import { useThemeStore } from '../../store/themeStore';
-import { colors } from '../../theme/colors';
-
-const createThemedStyles = (theme: (typeof colors)['light'] | (typeof colors)['dark']) =>
-  StyleSheet.create({
-    container: {
-      backgroundColor: theme.background,
-    },
-    error: {
-      color: theme.error,
-    },
-  });
 
 export default function FeedScreen() {
   const { articles, error, isConnected, isLoading, isLoadingMore, isRefreshing, loadMore, refresh } =
@@ -46,7 +35,6 @@ export default function FeedScreen() {
   const mode = useThemeStore((state) => state.mode);
   const toggleMode = useThemeStore((state) => state.toggleMode);
   const theme = useAppTheme();
-  const themedStyles = createThemedStyles(theme.colors);
 
   useEffect(() => {
     const loadBookmarks = async () => {
@@ -106,11 +94,11 @@ export default function FeedScreen() {
   }
 
   return (
-    <SafeAreaView edges={['top', 'right', 'left']} style={[styles.container, themedStyles.container]}>
+    <SafeAreaView edges={['top', 'right', 'left']} style={[styles.container, { backgroundColor: theme.colors.background }]}>
       <Header title="Feed" mode={mode} onToggleTheme={toggleMode} onLogout={handleLogout} />
 
       {!isConnected ? <OfflineBanner /> : null}
-      {error ? <Text style={[styles.inlineError, themedStyles.error]}>{error}</Text> : null}
+      {error ? <Text style={[styles.inlineError, { color: theme.colors.error }]}>{error}</Text> : null}
 
       <FlatList
         contentContainerStyle={styles.listContent}

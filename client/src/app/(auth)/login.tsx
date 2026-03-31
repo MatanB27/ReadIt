@@ -15,38 +15,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import { VALID_EMAIL, VALID_PASSWORD } from '../../services/authService';
 import { useAuthStore } from '../../store/authStore';
-import { colors } from '../../theme/colors';
-
-const createThemedStyles = (theme: (typeof colors)['light'] | (typeof colors)['dark']) =>
-  StyleSheet.create({
-    container: {
-      backgroundColor: theme.background,
-    },
-    card: {
-      backgroundColor: theme.surface,
-      borderColor: theme.border,
-    },
-    title: {
-      color: theme.text,
-    },
-    subtitle: {
-      color: theme.mutedText,
-    },
-    input: {
-      borderColor: theme.inputBorder,
-      backgroundColor: theme.inputBackground,
-      color: theme.text,
-    },
-    error: {
-      color: theme.error,
-    },
-    button: {
-      backgroundColor: theme.primary,
-    },
-    buttonText: {
-      color: theme.primaryText,
-    },
-  });
 
 export default function LoginScreen() {
   const theme = useAppTheme();
@@ -55,7 +23,6 @@ export default function LoginScreen() {
   const [password, setPassword] = useState(VALID_PASSWORD);
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const themedStyles = createThemedStyles(theme.colors);
 
   const isDisabled = !email.trim() || !password.trim() || isSubmitting;
 
@@ -84,10 +51,10 @@ export default function LoginScreen() {
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       style={styles.keyboardView}
     >
-      <SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={[styles.container, themedStyles.container]}>
-        <View style={[styles.card, themedStyles.card]}>
-          <Text style={[styles.title, themedStyles.title]}>ReadIt</Text>
-          <Text style={[styles.subtitle, themedStyles.subtitle]}>Sign in to continue</Text>
+      <SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={[styles.container, { backgroundColor: theme.colors.background }]}>
+        <View style={[styles.card, { backgroundColor: theme.colors.surface, borderColor: theme.colors.border }]}>
+          <Text style={[styles.title, { color: theme.colors.text }]}>ReadIt</Text>
+          <Text style={[styles.subtitle, { color: theme.colors.mutedText }]}>Sign in to continue</Text>
 
           <TextInput
             autoCapitalize="none"
@@ -96,7 +63,7 @@ export default function LoginScreen() {
             onChangeText={setEmail}
             placeholder="Email"
             placeholderTextColor={theme.colors.mutedText}
-            style={[styles.input, themedStyles.input]}
+            style={[styles.input, { borderColor: theme.colors.inputBorder, backgroundColor: theme.colors.inputBackground, color: theme.colors.text }]}
             value={email}
           />
 
@@ -107,21 +74,21 @@ export default function LoginScreen() {
             placeholder="Password"
             placeholderTextColor={theme.colors.mutedText}
             secureTextEntry
-            style={[styles.input, themedStyles.input]}
+            style={[styles.input, { borderColor: theme.colors.inputBorder, backgroundColor: theme.colors.inputBackground, color: theme.colors.text }]}
             value={password}
           />
 
-          {error ? <Text style={[styles.error, themedStyles.error]}>{error}</Text> : null}
+          {error ? <Text style={[styles.error, { color: theme.colors.error }]}>{error}</Text> : null}
 
           <Pressable
             disabled={isDisabled}
             onPress={handleLogin}
-            style={[styles.button, themedStyles.button, isDisabled && styles.buttonDisabled]}
+            style={[styles.button, { backgroundColor: theme.colors.primary }, isDisabled && styles.buttonDisabled]}
           >
             {isSubmitting ? (
               <ActivityIndicator color={theme.colors.primaryText} />
             ) : (
-              <Text style={[styles.buttonText, themedStyles.buttonText]}>Log In</Text>
+              <Text style={[styles.buttonText, { color: theme.colors.primaryText }]}>Log In</Text>
             )}
           </Pressable>
         </View>
