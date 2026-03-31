@@ -2,7 +2,6 @@ import { useCallback, useEffect } from 'react';
 import {
   ActivityIndicator,
   FlatList,
-  Pressable,
   RefreshControl,
   StyleSheet,
   Text,
@@ -23,6 +22,7 @@ import { useBookmarksStore } from '../../store/bookmarksStore';
 export default function FeedScreen() {
   const { articles, error, isConnected, isLoading, isLoadingMore, isRefreshing, loadMore, refresh } =
     useFeed();
+    
   const logout = useAuthStore((state) => state.logout);
   const bookmarks = useBookmarksStore((state) => state.bookmarks);
   const hydrateBookmarks = useBookmarksStore((state) => state.hydrateBookmarks);

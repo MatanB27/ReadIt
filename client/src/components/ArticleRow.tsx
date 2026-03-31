@@ -1,5 +1,6 @@
 import { memo } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import Animated, { FadeInDown } from 'react-native-reanimated';
 
 import type { Article } from '../types/article';
 import { formatRelativeTime } from '../utils/formatRelativeTime';
@@ -16,32 +17,31 @@ const ArticleRowComponent = ({ article, bookmarked, onPress, onToggleBookmark }:
   const detailText = `${article.domain || 'No domain'} | ${formatRelativeTime(article.time)}`;
 
   return (
-    <Pressable
-      onPress={() => {
-        onPress(article);
-      }}
-      style={styles.row}
-    >
-      <View style={styles.rowContent}>
-        <Text style={styles.title}>{article.title}</Text>
-        <Text style={styles.meta}>{metaText}</Text>
-        <Text style={styles.meta}>{detailText}</Text>
-      </View>
-
+    <Animated.View entering={FadeInDown.duration(250)}>
       <Pressable
         onPress={() => {
-          onToggleBookmark(article);
+          onPress(article);
         }}
-        style={[styles.bookmarkButton, bookmarked && styles.bookmarkButtonActive]}
+        style={styles.row}
       >
-        <Text style={[styles.bookmarkIcon, bookmarked && styles.bookmarkIconActive]}>
-          {bookmarked ? '★' : '☆'}
-        </Text>
-        <Text style={[styles.bookmarkText, bookmarked && styles.bookmarkTextActive]}>
-          {bookmarked ? 'Saved' : 'Save'}
-        </Text>
+        <View style={styles.rowContent}>
+          <Text style={styles.title}>{article.title}</Text>
+          <Text style={styles.meta}>{metaText}</Text>
+          <Text style={styles.meta}>{detailText}</Text>
+        </View>
+
+        <Pressable
+          onPress={() => {
+            onToggleBookmark(article);
+          }}
+          style={[styles.bookmarkButton, bookmarked && styles.bookmarkButtonActive]}
+        >
+          <Text style={[styles.bookmarkText, bookmarked && styles.bookmarkTextActive]}>
+            {bookmarked ? 'Saved' : 'Save'}
+          </Text>
+        </Pressable>
       </Pressable>
-    </Pressable>
+    </Animated.View>
   );
 };
 
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     color: '#3A302B',
   },
   bookmarkIcon: {
-    fontSize: 14,
+    fontSize: 12,
     color: '#3A302B',
   },
   bookmarkTextActive: {
