@@ -5,7 +5,7 @@ import { getBookmarks, saveBookmarks } from '../services/storage';
 
 type BookmarksById = Record<number, Article>;
 
-type BookmarksStore = {
+interface BookmarksStore {
   bookmarks: BookmarksById;
   hydrateBookmarks: () => Promise<void>;
   toggleBookmark: (article: Article) => Promise<void>;
