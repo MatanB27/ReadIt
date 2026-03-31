@@ -2,8 +2,8 @@ import type { AuthTokenPayload } from '../types/auth';
 import { decodeMockToken, isTokenExpired } from '../utils/auth';
 import { deleteToken, getToken, saveToken } from './secureStore';
 
-const VALID_EMAIL = 'user@readit.dev';
-const VALID_PASSWORD = 'password123';
+export const VALID_EMAIL = 'user@readit.dev';
+export const VALID_PASSWORD = 'password123';
 const SESSION_DURATION_MS = 24 * 60 * 60 * 1000;
 
 const encodeMockToken = (payload: AuthTokenPayload): string => {

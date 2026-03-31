@@ -11,12 +11,13 @@ import {
 } from 'react-native';
 import { router } from 'expo-router';
 
+import { VALID_EMAIL, VALID_PASSWORD } from '../../services/authService';
 import { useAuthStore } from '../../store/authStore';
 
 export default function LoginScreen() {
   const login = useAuthStore((state) => state.login);
-  const [email, setEmail] = useState('user@readit.dev');
-  const [password, setPassword] = useState('password123');
+  const [email, setEmail] = useState(VALID_EMAIL);
+  const [password, setPassword] = useState(VALID_PASSWORD);
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
