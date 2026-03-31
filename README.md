@@ -54,6 +54,7 @@ Why Zustand:
 - Mock auth is fully client-side because the task allows it
 - Feed cache is intentionally simple: last successful feed snapshot
 - One focused unit test was added for the bookmarks store instead of broad test coverage
+- The Hacker News `user/{id}` endpoint was not used because the current UI only needs the author username, which already comes from each item’s `by` field
 
 ## With More Time
 

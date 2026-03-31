@@ -35,7 +35,7 @@ export default function ArticleDetailScreen() {
       ? selectedArticle
       : null,
   );
-  const [isLoading, setIsLoading] = useState(!article);
+  const [isLoading, setIsLoading] = useState<boolean>(!article);
 
   useEffect(() => {
     if (selectedArticle && selectedArticle.id === articleId) {

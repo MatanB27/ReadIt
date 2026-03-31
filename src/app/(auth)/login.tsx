@@ -19,11 +19,11 @@ import { useAuthStore } from '../../store/authStore';
 export default function LoginScreen() {
   const theme = useAppTheme();
   const login = useAuthStore((state) => state.login);
-  
-  const [email, setEmail] = useState(VALID_EMAIL);
-  const [password, setPassword] = useState(VALID_PASSWORD);
-  const [error, setError] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const [email, setEmail] = useState<string>(VALID_EMAIL);
+  const [password, setPassword] = useState<string>(VALID_PASSWORD);
+  const [error, setError] = useState<string>('');
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const isDisabled = !email.trim() || !password.trim() || isSubmitting;
 

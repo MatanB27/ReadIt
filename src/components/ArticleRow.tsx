@@ -1,10 +1,10 @@
+import { formatDistanceToNowStrict } from "date-fns";
 import { memo } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import Animated, { FadeInDown } from "react-native-reanimated";
 
 import { useAppTheme } from "../hooks/useAppTheme";
 import type { Article } from "../types/article";
-import { formatRelativeTime } from "../utils/formatRelativeTime";
 
 interface ArticleRowProps {
   article: Article;
@@ -21,7 +21,12 @@ const ArticleRowComponent = ({
 }: ArticleRowProps) => {
   const theme = useAppTheme();
   const metaText = `${article.score} points | ${article.commentCount} comments`;
-  const detailText = `${article.domain || "No domain"} | ${formatRelativeTime(article.time)}`;
+  const relativeTime = article.time
+    ? formatDistanceToNowStrict(new Date(article.time * 1000), {
+        addSuffix: true,
+      })
+    : "";
+  const detailText = `${article.domain || "No domain"} | ${relativeTime}`;
 
   return (
     <Animated.View entering={FadeInDown.duration(250)}>

@@ -24,11 +24,11 @@ export const useFeed = (): UseFeedResult => {
   const isConnected = useNetworkStatus();
   const [articles, setArticles] = useState<Article[]>([]);
   const [topStoryIds, setTopStoryIds] = useState<number[]>([]);
-  const [page, setPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isRefreshing, setIsRefreshing] = useState(false);
-  const [isLoadingMore, setIsLoadingMore] = useState(false);
-  const [error, setError] = useState('');
+  const [page, setPage] = useState<number>(1);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
+  const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
 
   const loadCachedFeed = useCallback(async () => {
     const cachedArticles = await getCachedFeed();
