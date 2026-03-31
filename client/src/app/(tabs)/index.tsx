@@ -20,6 +20,8 @@ import { useFeed } from '../../hooks/useFeed';
 import { useAuthStore } from '../../store/authStore';
 import { useBookmarksStore } from '../../store/bookmarksStore';
 import { useSelectedArticleStore } from '../../store/selectedArticleStore';
+import { useAppTheme } from '../../hooks/useAppTheme';
+import { useThemeStore } from '../../store/themeStore';
 
 export default function FeedScreen() {
   const { articles, error, isConnected, isLoading, isLoadingMore, isRefreshing, loadMore, refresh } =
@@ -30,6 +32,17 @@ export default function FeedScreen() {
   const hydrateBookmarks = useBookmarksStore((state) => state.hydrateBookmarks);
   const toggleBookmark = useBookmarksStore((state) => state.toggleBookmark);
   const setSelectedArticle = useSelectedArticleStore((state) => state.setSelectedArticle);
+  const mode = useThemeStore((state) => state.mode);
+  const toggleMode = useThemeStore((state) => state.toggleMode);
+  const theme = useAppTheme();
+  const themedStyles = StyleSheet.create({
+    container: {
+      backgroundColor: theme.colors.background,
+    },
+    error: {
+      color: theme.colors.error,
+    },
+  });
 
   useEffect(() => {
     const loadBookmarks = async () => {
@@ -89,11 +102,11 @@ export default function FeedScreen() {
   }
 
   return (
-    <SafeAreaView edges={['top', 'right', 'left']} style={styles.container}>
-      <Header title="Feed" onLogout={handleLogout} />
+    <SafeAreaView edges={['top', 'right', 'left']} style={[styles.container, themedStyles.container]}>
+      <Header title="Feed" mode={mode} onToggleTheme={toggleMode} onLogout={handleLogout} />
 
       {!isConnected ? <OfflineBanner /> : null}
-      {error ? <Text style={styles.inlineError}>{error}</Text> : null}
+      {error ? <Text style={[styles.inlineError, themedStyles.error]}>{error}</Text> : null}
 
       <FlatList
         contentContainerStyle={styles.listContent}
@@ -118,7 +131,6 @@ export default function FeedScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5EFE6',
     paddingHorizontal: 24,
     paddingTop: 12,
   },

@@ -1,13 +1,21 @@
 import { StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { useAppTheme } from '../hooks/useAppTheme';
 import { Header } from './Header';
 import { SkeletonRow } from './SkeletonRow';
 
 export const FeedLoading = () => {
+  const theme = useAppTheme();
+  const themedStyles = StyleSheet.create({
+    container: {
+      backgroundColor: theme.colors.background,
+    },
+  });
+
   return (
-    <SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={styles.container}>
-      <Header title="Feed" onLogout={() => {}} />
+    <SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={[styles.container, themedStyles.container]}>
+      <Header title="Feed" mode={theme.mode} onToggleTheme={() => {}} onLogout={() => {}} />
       <View style={styles.list}>
         <SkeletonRow />
         <SkeletonRow />
@@ -22,7 +30,6 @@ export const FeedLoading = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5EFE6',
     paddingHorizontal: 24,
     paddingTop: 12,
   },

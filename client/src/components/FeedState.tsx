@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { useAppTheme } from '../hooks/useAppTheme';
 import { OfflineBanner } from './OfflineBanner';
 
 type FeedStateProps = {
@@ -10,11 +11,24 @@ type FeedStateProps = {
 };
 
 export const FeedState = ({ title, message = '', showOfflineBanner = false }: FeedStateProps) => {
+  const theme = useAppTheme();
+  const themedStyles = StyleSheet.create({
+    container: {
+      backgroundColor: theme.colors.background,
+    },
+    title: {
+      color: theme.colors.text,
+    },
+    message: {
+      color: theme.colors.mutedText,
+    },
+  });
+
   return (
-    <SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={styles.container}>
+    <SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={[styles.container, themedStyles.container]}>
       {showOfflineBanner ? <OfflineBanner /> : null}
-      <Text style={styles.title}>{title}</Text>
-      {message ? <Text style={styles.message}>{message}</Text> : null}
+      <Text style={[styles.title, themedStyles.title]}>{title}</Text>
+      {message ? <Text style={[styles.message, themedStyles.message]}>{message}</Text> : null}
     </SafeAreaView>
   );
 };
@@ -25,17 +39,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 24,
-    backgroundColor: '#F5EFE6',
   },
   title: {
     marginBottom: 8,
     fontSize: 20,
     fontWeight: '600',
-    color: '#1F1A17',
   },
   message: {
     textAlign: 'center',
     fontSize: 14,
-    color: '#6A5F57',
   },
 });

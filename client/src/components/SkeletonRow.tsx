@@ -8,10 +8,22 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
+import { useAppTheme } from '../hooks/useAppTheme';
+
 const AnimatedView = Animated.createAnimatedComponent(View);
 
 export const SkeletonRow = () => {
+  const theme = useAppTheme();
   const opacity = useSharedValue(0.55);
+  const themedStyles = StyleSheet.create({
+    row: {
+      borderColor: theme.colors.border,
+      backgroundColor: theme.colors.surface,
+    },
+    skeleton: {
+      backgroundColor: theme.colors.skeleton,
+    },
+  });
 
   useEffect(() => {
     opacity.value = withRepeat(
@@ -28,14 +40,14 @@ export const SkeletonRow = () => {
   });
 
   return (
-    <View style={styles.row}>
+    <View style={[styles.row, themedStyles.row]}>
       <View style={styles.content}>
-        <AnimatedView style={[styles.title, animatedStyle]} />
-        <AnimatedView style={[styles.metaWide, animatedStyle]} />
-        <AnimatedView style={[styles.metaShort, animatedStyle]} />
+        <AnimatedView style={[styles.title, themedStyles.skeleton, animatedStyle]} />
+        <AnimatedView style={[styles.metaWide, themedStyles.skeleton, animatedStyle]} />
+        <AnimatedView style={[styles.metaShort, themedStyles.skeleton, animatedStyle]} />
       </View>
 
-      <AnimatedView style={[styles.button, animatedStyle]} />
+      <AnimatedView style={[styles.button, themedStyles.skeleton, animatedStyle]} />
     </View>
   );
 };
@@ -46,8 +58,6 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 18,
     borderWidth: 1,
-    borderColor: '#E2D7C8',
-    backgroundColor: '#FFFDF9',
   },
   content: {
     gap: 8,
@@ -57,24 +67,20 @@ const styles = StyleSheet.create({
     height: 22,
     width: '86%',
     borderRadius: 8,
-    backgroundColor: '#E8DED1',
   },
   metaWide: {
     height: 14,
     width: '62%',
     borderRadius: 999,
-    backgroundColor: '#E8DED1',
   },
   metaShort: {
     height: 14,
     width: '48%',
     borderRadius: 999,
-    backgroundColor: '#E8DED1',
   },
   button: {
     height: 32,
     width: 88,
     borderRadius: 999,
-    backgroundColor: '#E8DED1',
   },
 });

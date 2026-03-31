@@ -7,9 +7,11 @@ import type { Article } from "../../types/article";
 import { ArticleRow } from "../../components/ArticleRow";
 import { FeedState } from "../../components/FeedState";
 import { Header } from "../../components/Header";
+import { useAppTheme } from "../../hooks/useAppTheme";
 import { useAuthStore } from "../../store/authStore";
 import { useBookmarksStore } from "../../store/bookmarksStore";
 import { useSelectedArticleStore } from "../../store/selectedArticleStore";
+import { useThemeStore } from "../../store/themeStore";
 
 export default function BookmarksScreen() {
   const logout = useAuthStore((state) => state.logout);
@@ -19,6 +21,14 @@ export default function BookmarksScreen() {
   const setSelectedArticle = useSelectedArticleStore(
     (state) => state.setSelectedArticle,
   );
+  const mode = useThemeStore((state) => state.mode);
+  const toggleMode = useThemeStore((state) => state.toggleMode);
+  const theme = useAppTheme();
+  const themedStyles = StyleSheet.create({
+    container: {
+      backgroundColor: theme.colors.background,
+    },
+  });
 
   useEffect(() => {
     const loadBookmarks = async () => {
@@ -74,8 +84,8 @@ export default function BookmarksScreen() {
   );
 
   return (
-    <SafeAreaView edges={["top", "right", "left"]} style={styles.container}>
-      <Header title="Bookmarks" onLogout={logout} />
+    <SafeAreaView edges={["top", "right", "left"]} style={[styles.container, themedStyles.container]}>
+      <Header title="Bookmarks" mode={mode} onToggleTheme={toggleMode} onLogout={logout} />
       {content}
     </SafeAreaView>
   );
@@ -84,7 +94,6 @@ export default function BookmarksScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F5EFE6",
     paddingHorizontal: 24,
     paddingTop: 12,
   },

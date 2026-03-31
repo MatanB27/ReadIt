@@ -7,13 +7,13 @@ import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import 'react-native-reanimated';
 
-import { useColorScheme } from '@/hooks/use-color-scheme';
 import { useAuthBootstrap } from '../hooks/useAuthBootstrap';
+import { useThemeStore } from '../store/themeStore';
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
   const { isBootstrapping } = useAuthBootstrap();
   const [queryClient] = useState(() => new QueryClient());
+  const mode = useThemeStore((state) => state.mode);
 
   if (isBootstrapping) {
     return (
@@ -28,12 +28,12 @@ export default function RootLayout() {
   return (
     <SafeAreaProvider>
       <QueryClientProvider client={queryClient}>
-        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <ThemeProvider value={mode === 'dark' ? DarkTheme : DefaultTheme}>
           <Stack>
             <Stack.Screen name="(auth)" options={{ headerShown: false }} />
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           </Stack>
-          <StatusBar style="auto" />
+          <StatusBar style={mode === 'dark' ? 'light' : 'dark'} />
         </ThemeProvider>
       </QueryClientProvider>
     </SafeAreaProvider>
