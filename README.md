@@ -4,11 +4,6 @@ Expo React Native take-home project for a Hacker News reader with mock auth, off
 
 ## Setup
 
-Assumptions:
-- Node.js 20+
-- npm 10+
-- Expo Go app or Android/iOS simulator
-
 Install and run:
 
 ```bash
